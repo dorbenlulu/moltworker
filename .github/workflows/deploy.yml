@@ -24,14 +24,11 @@ jobs:
 
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3
-        env:
-          # מיפוי הסודות מגיטהאב למשתני סביבה זמניים בריצה
-          TEAM_DOMAIN: ${{ secrets.CF_ACCESS_TEAM_DOMAIN }}
-          AUD_TAG: ${{ secrets.CF_ACCESS_AUD }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy
+          # הזרקה ישירה מה-Secrets ל-Vars של Cloudflare
           vars: |
-            CF_ACCESS_TEAM_DOMAIN=${{ env.TEAM_DOMAIN }}
-            CF_ACCESS_AUD=${{ env.AUD_TAG }}
+            CF_ACCESS_TEAM_DOMAIN=${{ secrets.CF_ACCESS_TEAM_DOMAIN }}
+            CF_ACCESS_AUD=${{ secrets.CF_ACCESS_AUD }}
