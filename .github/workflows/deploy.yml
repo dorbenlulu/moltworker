@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: # מאפשר לך להריץ את זה ידנית בלחיצת כפתור
+  workflow_dispatch: # מאפשר לך להריץ ידנית מה-Actions
 
 jobs:
   deploy:
@@ -23,10 +23,14 @@ jobs:
 
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3
+        env:
+          # מיפוי הסודות מגיטהאב למשתני סביבה זמניים בריצה
+          TEAM_DOMAIN: ${{ secrets.CF_ACCESS_TEAM_DOMAIN }}
+          AUD_TAG: ${{ secrets.CF_ACCESS_AUD }}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy
           vars: |
-            CF_ACCESS_TEAM_DOMAIN=${{ secrets.CF_ACCESS_TEAM_DOMAIN }}
-            CF_ACCESS_AUD=${{ secrets.CF_ACCESS_AUD }}
+            CF_ACCESS_TEAM_DOMAIN=${{ env.TEAM_DOMAIN }}
+            CF_ACCESS_AUD=${{ env.AUD_TAG }}
