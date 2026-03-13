@@ -1,0 +1,12 @@
+{
+  "name": "Swing Trading Expert",
+  "model": "anthropic/claude-3-5-sonnet-20240620",
+  "description": "סוכן מומחה לניתוח טכני ופונדמנטלי של מניות באסטרטגיית סווינג",
+  "identity": {
+    "name": "SwingTrader",
+    "emoji": "📈"
+  },
+  "tools": [
+    "web_search"
+  ]
+}
