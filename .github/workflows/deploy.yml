@@ -4,12 +4,11 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: # מאפשר לך להריץ ידנית מה-Actions
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -27,8 +26,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy
-          # הזרקה ישירה מה-Secrets ל-Vars של Cloudflare
-          vars: |
-            CF_ACCESS_TEAM_DOMAIN=${{ secrets.CF_ACCESS_TEAM_DOMAIN }}
-            CF_ACCESS_AUD=${{ secrets.CF_ACCESS_AUD }}
+          # אנחנו מזריקים את המשתנים ישירות לפקודה עם גרשיים למניעת שגיאות קידוד
+          command: deploy --var CF_ACCESS_TEAM_DOMAIN:"${{ secrets.CF_ACCESS_TEAM_DOMAIN }}" --var CF_ACCESS_AUD:"${{ secrets.CF_ACCESS_AUD }}"
